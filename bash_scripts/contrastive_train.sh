@@ -1,18 +1,9 @@
-PYTHON='/users/sagar/miniconda3/envs/open_world_prototype/bin/python'
+#!/bin/bash
+module load anaconda/3
 
-hostname
-nvidia-smi
+conda activate mothenv
 
-export CUDA_VISIBLE_DEVICES=0
-
-# Get unique log file,
-SAVE_DIR=/work/sagar/osr_novel_categories/dev_outputs/
-
-EXP_NUM=$(ls ${SAVE_DIR} | wc -l)
-EXP_NUM=$((${EXP_NUM}+1))
-echo $EXP_NUM
-
-${PYTHON} -m methods.contrastive_training.contrastive_training \
+python -m methods.contrastive_training.contrastive_training \
             --dataset_name 'scars' \
             --batch_size 128 \
             --grad_from_block 11 \
@@ -26,4 +17,3 @@ ${PYTHON} -m methods.contrastive_training.contrastive_training \
             --transform 'imagenet' \
             --lr 0.1 \
             --eval_funcs 'v1' 'v2' \
-> ${SAVE_DIR}logfile_${EXP_NUM}.out
